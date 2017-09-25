@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Net.Http;
 using System.Web;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace CSHttpClientSample
 {
@@ -37,11 +39,29 @@ namespace CSHttpClientSample
             Console.WriteLine("\n");
             HttpResponseMessage response = await client.GetAsync(uri);
             response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
+            string json = await response.Content.ReadAsStringAsync();
             Console.WriteLine("+Response    ----------------------------------------------------");
-            Console.WriteLine(responseBody);
-            Console.WriteLine("\n");
-        
+            
+            // Console.WriteLine(json);
+             //Console.WriteLine("\n");
+             
+            
+            var objects = JArray.Parse(json); // parse as array  
+            foreach (JObject root in objects)
+            {
+                foreach (KeyValuePair<String, JToken> app in root)
+                {
+                    var appName = app.Key;
+                    var description = (String)app.Value["Description"];
+                    var value = (String)app.Value["Value"];
+
+                    Console.WriteLine(appName);
+                    Console.WriteLine(description);
+                    Console.WriteLine(value);
+                    Console.WriteLine("\n");
+                }
+            }
+            
         }
     }
 }
