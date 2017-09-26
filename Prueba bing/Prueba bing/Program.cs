@@ -151,17 +151,12 @@ namespace CSHttpClientSample
 
         static void iWebpages(string dato, JToken desc)
         {
-            if (!dato.Equals("dateLastCrawled"))
+            if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks"))
+            {;}
+            else
             {
                 Console.WriteLine("-------------------------------------------------------------");
-                if (dato.Equals("snippet"))
-                {
-                    Console.Write("About");
-                }
-                else
-                {
-                    Console.Write(FirstCharToUpper(dato));
-                }
+                Console.Write(FirstCharToUpper(dato));
                 Console.WriteLine(":\n-------------------------------------------------------------");
                 Console.WriteLine(desc);
             }
@@ -169,20 +164,43 @@ namespace CSHttpClientSample
 
         static void iImages(string dato, JToken desc)
         {
-
+            if (dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
+            {;}
+            else
+            {
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.Write(FirstCharToUpper(dato));
+                Console.WriteLine(":\n-------------------------------------------------------------");
+                Console.WriteLine(desc);
+            }
         }
 
         static void iRelatedsearches(string dato, JToken desc)
         {
-
+            if (dato.Equals("displayText"))
+            {;}
+            else
+            {
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.Write(FirstCharToUpper(dato));
+                Console.WriteLine(":\n-------------------------------------------------------------");
+                Console.WriteLine(desc);
+            }
         }
 
         static void iVideos(string dato, JToken desc)
         {
-
+            if (dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed"))
+            {;}
+            else
+            {
+            Console.WriteLine("-------------------------------------------------------------");
+            Console.Write(FirstCharToUpper(dato));
+            Console.WriteLine(":\n-------------------------------------------------------------");
+            Console.WriteLine(desc);
+            }
         }
 
         #endregion
-
     }
 }
