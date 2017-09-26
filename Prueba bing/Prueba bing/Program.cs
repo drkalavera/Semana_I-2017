@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace CSHttpClientSample
 {
@@ -21,10 +22,8 @@ namespace CSHttpClientSample
         {
             var client = new HttpClient();
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-
             // Request headers
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "64f004f772a540ab92636c548eafff76");
-
             // Request parameters
             queryString["q"] = "dog";
             queryString["count"] = "10";
@@ -41,27 +40,26 @@ namespace CSHttpClientSample
             response.EnsureSuccessStatusCode();
             string json = await response.Content.ReadAsStringAsync();
             Console.WriteLine("+Response    ----------------------------------------------------");
-            
-            // Console.WriteLine(json);
-             //Console.WriteLine("\n");
-             
-            
-            var objects = JArray.Parse(json); // parse as array  
-            foreach (JObject root in objects)
+            Console.WriteLine("\n***************************************************************************");
+            dynamic stuff = JsonConvert.DeserializeObject(json);
+
+            //WEBPAGES IMPRIMIR
+            foreach (JObject x in stuff.webPages.value)
             {
-                foreach (KeyValuePair<String, JToken> app in root)
+                foreach (KeyValuePair<String, JToken> app in x)
+
                 {
                     var appName = app.Key;
-                    var description = (String)app.Value["Description"];
-                    var value = (String)app.Value["Value"];
-
+                    var description = app.Value;
+                    //var value = (String)app.Value["Value"];
+                    Console.WriteLine("dato-------------------------------------------------------------------------------------");
                     Console.WriteLine(appName);
+                    Console.WriteLine("valor------------------------------------------------------------------------------------");
                     Console.WriteLine(description);
-                    Console.WriteLine(value);
-                    Console.WriteLine("\n");
+                    //Console.WriteLine(value);
                 }
             }
-            
         }
     }
 }
+
