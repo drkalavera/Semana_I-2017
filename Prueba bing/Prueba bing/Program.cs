@@ -44,7 +44,7 @@ namespace CSHttpClientSample
 
         static void obtenerDatos(dynamic stuff)
         {
-            imprimirWebPages(stuff);
+            imprimirWebPages(stuff.webPages.value);
 
         }
 
@@ -52,7 +52,7 @@ namespace CSHttpClientSample
         {
             int i = 0;
             //WEBPAGES IMPRIMIR
-            foreach (JObject x in stuff.webPages.value)
+            foreach (JObject x in stuff)
             {
                 foreach (KeyValuePair<String, JToken> app in x)
                 {
@@ -110,7 +110,7 @@ namespace CSHttpClientSample
             Console.WriteLine("\n***************************************************************************");
             dynamic stuff = JsonConvert.DeserializeObject(json);
 
-            imprimirWebPages(stuff);
+            obtenerDatos(stuff);
         
         }
     }
