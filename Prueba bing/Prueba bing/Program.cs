@@ -44,16 +44,34 @@ namespace CSHttpClientSample
 
         static void obtenerDatos(dynamic stuff)
         {
-            imprimirWebPages(stuff.webPages.value);
-
+            // Imprimir WEBPAGES   
+             datum("WEBPAGES");
+            imprimirCosas(stuff.webPages.value);
+            //iMPRIMIR IMAGES
+            datum("Images");
+            imprimirCosas(stuff.images.value);
+            //IMPRIMIR RELATEDSEARCHES
+            datum("RELATEDSEARCHES");
+            imprimirCosas(stuff.relatedSearches.value);
+            //IMPRIMIR VIDEOS
+            datum("videos");
+            imprimirCosas(stuff.videos.value);
         }
 
-        static void imprimirWebPages(dynamic stuff)
+        static void datum(string ke)
+        {
+            Console.WriteLine("\n***************************************************************************");
+            Console.Write(ke);
+            Console.WriteLine("\n***************************************************************************");
+        }
+
+        static void imprimirCosas(dynamic stuff)
         {
             int i = 0;
-            //WEBPAGES IMPRIMIR
+
             foreach (JObject x in stuff)
             {
+                int cc = 0; 
                 foreach (KeyValuePair<String, JToken> app in x)
                 {
                     var appName = app.Key;
@@ -61,13 +79,14 @@ namespace CSHttpClientSample
 
                     if (!appName.Equals("dateLastCrawled"))
                     {
-                        if (appName.Equals("id"))
+                        if (cc==0)
                         {
                             Console.WriteLine("\n");
                             Console.Write("Resultado ");
                             Console.Write(i);
                             Console.WriteLine(":");
                             i++;
+                            cc++;
                         }
                         Console.WriteLine("-------------------------------------------------------------");
                         if (appName.Equals("snippet"))
@@ -81,6 +100,7 @@ namespace CSHttpClientSample
                         Console.WriteLine(":\n-------------------------------------------------------------");
                         Console.WriteLine(description);
                     }
+                    
                 }
             }
         }
@@ -107,7 +127,6 @@ namespace CSHttpClientSample
             response.EnsureSuccessStatusCode();
             string json = await response.Content.ReadAsStringAsync();
             Console.WriteLine("+Response:\n----------------------------------------------------");
-            Console.WriteLine("\n***************************************************************************");
             dynamic stuff = JsonConvert.DeserializeObject(json);
 
             obtenerDatos(stuff);
@@ -115,4 +134,6 @@ namespace CSHttpClientSample
         }
     }
 }
+
+
 
