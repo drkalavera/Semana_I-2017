@@ -186,8 +186,9 @@ namespace CSHttpClientSample
             string json = await response.Content.ReadAsStringAsync();
             // Console.WriteLine("+Response:\n----------------------------------------------------");
             dynamic stuff = JsonConvert.DeserializeObject(json);
+            //Console.WriteLine(json);
 
-            obtenerDatos(stuff);
+           obtenerDatos(stuff);
 
         }
 
@@ -248,7 +249,7 @@ namespace CSHttpClientSample
         static void iWebpages(string dato, JToken desc)
         {
 
-            if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks") || dato.Equals("about"))
+            if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks") || dato.Equals("about") || dato.Equals("insightsSourcesSummary"))
             {
 
                 //Console.Write("About");
@@ -264,9 +265,10 @@ namespace CSHttpClientSample
             }
         }
 
+        
         static void iImages(string dato, JToken desc)
         {
-            if (dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
+            if (dato.Equals("thumbnail") || dato.Equals("insightsSourcesSummary") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
             {
 
                 //Console.Write("About");
@@ -284,7 +286,7 @@ namespace CSHttpClientSample
 
         static void iRelatedsearches(string dato, JToken desc)
         {
-            if (dato.Equals("displayText"))
+            if (dato.Equals("displayText") || dato.Equals("insightsSourcesSummary"))
             {
 
                 //Console.Write("About");
@@ -302,7 +304,7 @@ namespace CSHttpClientSample
 
         static void iVideos(string dato, JToken desc)
         {
-            if (dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed") || dato.Equals("name"))
+            if (dato.Equals("insightsSourcesSummary")|| dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed") || dato.Equals("name"))
             {
 
                 //Console.Write("About");
