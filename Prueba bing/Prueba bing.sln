@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextFiles", "TextFiles", "{98E3AAA6-70C1-43FB-A293-4BFED19F1B57}"
 	ProjectSection(SolutionItems) = preProject
 		Prueba bing\item.txt = Prueba bing\item.txt
+		Test.txt = Test.txt
 	EndProjectSection
 EndProject
 Global

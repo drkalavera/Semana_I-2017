@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 #region Referencias
 /*
@@ -19,16 +20,19 @@ https://stackoverflow.com/questions/10928528/receiving-json-data-back-from-http-
 https://stackoverflow.com/questions/12676746/parse-json-string-in-c-sharp
 https://stackoverflow.com/questions/40416569/newtonsoft-could-not-be-found
 http://www.c-sharpcorner.com/blogs/first-letter-in-uppercase-in-c-sharp1 
-https://stackoverflow.com/questions/1943465/avoiding-null-reference-exceptions
  */
 #endregion
 
 namespace CSHttpClientSample
 {
     static class Program
+
     {
+        static string wPages, v, i, rSearches;
         static void Main()
         {
+            BorrarA();
+            //Leer archivo
             StreamReader objReader = new StreamReader(@"item.txt");
             string sLine = "";
             ArrayList arrText = new ArrayList();
@@ -43,17 +47,67 @@ namespace CSHttpClientSample
 
             objReader.Close();
 
+
+
+            //Correr el programa
             foreach (string sOutput in arrText)
             {
                 MakeRequest(sOutput);
-                Console.WriteLine("Hit ENTER to exit...");
-                Console.ReadLine();
+                //Console.WriteLine("Hit ENTER to exit...");
+                //Console.ReadLine();
+                System.Threading.Thread.Sleep(4000);
+                return;
+            }
+
+
+        }
+        public static void BorrarA()
+        {
+            try
+            {
+                //Pass the filepath and filename to the StreamWriter Constructor
+                StreamWriter sw = new StreamWriter("Test.txt");
+                //Write a line of text
+                sw.Write("");
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
             }
 
         }
+        static void escribirText(string valor)
+        {
+            string path = @"Test.txt";
+            // This text is added only once to the file.
+            if (!File.Exists(path))
+            {
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(path))
+                {
+                    //sw.WriteLine("");
+                }
+            }
+
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.WriteLine(valor + "[");
+                //sw.WriteLine("");
+
+            }
+        }
+
+
+
+
+
 
         #region APPs 
-
         public static string FirstCharToUpper(string s)
         {
             //obtenido de http://www.c-sharpcorner.com/blogs/first-letter-in-uppercase-in-c-sharp1 
@@ -66,6 +120,9 @@ namespace CSHttpClientSample
             // Return char and concat substring.
             return char.ToUpper(s[0]) + s.Substring(1);
         }
+
+
+
 
         static void obtenerDatos(dynamic stuff)
         {
@@ -93,13 +150,17 @@ namespace CSHttpClientSample
                 datum("videos");
                 imprimirCosas(stuff.videos.value, 4);
             }
+            escribirText(wPages);
+            escribirText(i);
+            escribirText(rSearches);
+            escribirText(v);
         }
 
         static void datum(string ke)
         {
-            Console.WriteLine("\n***************************************************************************");
+            /*Console.WriteLine("\n***************************************************************************");
             Console.Write(ke);
-            Console.WriteLine("\n***************************************************************************");
+            Console.WriteLine("\n***************************************************************************");*/
         }
 
         static async void MakeRequest(string valor)
@@ -117,13 +178,13 @@ namespace CSHttpClientSample
             var uri = "https://api.cognitive.microsoft.com/bing/v5.0/search?" + queryString;
 
             //URL
-            Console.WriteLine("+Requested URL:\n----------------------------------------------------");
+            /*Console.WriteLine("+Requested URL:\n----------------------------------------------------");
             Console.WriteLine(uri);
-            Console.WriteLine("\n");
+            Console.WriteLine("\n");*/
             HttpResponseMessage response = await client.GetAsync(uri);
             response.EnsureSuccessStatusCode();
             string json = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("+Response:\n----------------------------------------------------");
+            // Console.WriteLine("+Response:\n----------------------------------------------------");
             dynamic stuff = JsonConvert.DeserializeObject(json);
 
             obtenerDatos(stuff);
@@ -137,7 +198,7 @@ namespace CSHttpClientSample
         static void imprimirCosas(dynamic stuff, int Que)
         {
             //1-webpages 2-images 3-relatedsearches 4-videos
-            int i = 0;
+            int i = 1;
             foreach (JObject x in stuff)
             {
                 int cc = 0;
@@ -147,16 +208,18 @@ namespace CSHttpClientSample
                     var description = app.Value;
                     if (cc == 0)
                     {
-                        Console.WriteLine("\n");
+                        /*Console.WriteLine("\n");
                         Console.Write("Resultado ");
                         Console.Write(i);
-                        Console.WriteLine(":");
+                        Console.WriteLine(":");*/
                         i++;
                         cc++;
                     }
                     imprimirQue(Que, appName, description);
                 }
+
             }
+
         }
 
         static void imprimirQue(int flag, string dato, JToken desc)
@@ -177,7 +240,7 @@ namespace CSHttpClientSample
                     iVideos(dato, desc);
                     break;
                 default:
-                    Console.WriteLine(":(");
+                    //Console.WriteLine(":(");
                     break;
             }
         }
@@ -186,52 +249,72 @@ namespace CSHttpClientSample
         {
 
             if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks") || dato.Equals("about"))
-            {;}
+            {
+
+                //Console.Write("About");
+            }
             else
             {
-                Console.WriteLine("-------------------------------------------------------------");
+                /*Console.WriteLine("-------------------------------------------------------------");
                 Console.Write(FirstCharToUpper(dato));
                 Console.WriteLine(":\n-------------------------------------------------------------");
-                Console.WriteLine(desc);
+                Console.WriteLine(desc);*/
+                string cadena = (string)desc;
+                wPages += (cadena + "¬");
             }
         }
 
         static void iImages(string dato, JToken desc)
         {
-            if (dato.Equals("insightsSourcesSummary")  || dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
-            {;}
+            if (dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
+            {
+
+                //Console.Write("About");
+            }
             else
             {
-                Console.WriteLine("-------------------------------------------------------------");
-                Console.Write(FirstCharToUpper(dato));
-                Console.WriteLine(":\n-------------------------------------------------------------");
-                Console.WriteLine(desc);
+                /* Console.WriteLine("-------------------------------------------------------------");
+                 Console.Write(FirstCharToUpper(dato));
+                 Console.WriteLine(":\n-------------------------------------------------------------");
+                 Console.WriteLine(desc);*/
+                string cadena = desc.ToString();
+                i += (cadena + "]");
             }
         }
 
         static void iRelatedsearches(string dato, JToken desc)
         {
             if (dato.Equals("displayText"))
-            {;}
+            {
+
+                //Console.Write("About");
+            }
             else
             {
-                Console.WriteLine("-------------------------------------------------------------");
+                /*Console.WriteLine("-------------------------------------------------------------");
                 Console.Write(FirstCharToUpper(dato));
                 Console.WriteLine(":\n-------------------------------------------------------------");
-                Console.WriteLine(desc);
+                Console.WriteLine(desc);*/
+                string cadena = (string)desc;
+                rSearches += (cadena + "¬");
             }
         }
 
         static void iVideos(string dato, JToken desc)
         {
             if (dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed") || dato.Equals("name"))
-            {;}
+            {
+
+                //Console.Write("About");
+            }
             else
             {
-                Console.WriteLine("-------------------------------------------------------------");
+                /*Console.WriteLine("-------------------------------------------------------------");
                 Console.Write(FirstCharToUpper(dato));
                 Console.WriteLine(":\n-------------------------------------------------------------");
-                Console.WriteLine(desc);
+                Console.WriteLine(desc);*/
+                string cadena = (string)desc;
+                v += (cadena + "¬");
             }
         }
 
