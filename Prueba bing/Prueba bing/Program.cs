@@ -19,6 +19,7 @@ https://stackoverflow.com/questions/10928528/receiving-json-data-back-from-http-
 https://stackoverflow.com/questions/12676746/parse-json-string-in-c-sharp
 https://stackoverflow.com/questions/40416569/newtonsoft-could-not-be-found
 http://www.c-sharpcorner.com/blogs/first-letter-in-uppercase-in-c-sharp1 
+https://stackoverflow.com/questions/1943465/avoiding-null-reference-exceptions
  */
 #endregion
 
@@ -52,6 +53,7 @@ namespace CSHttpClientSample
         }
 
         #region APPs 
+
         public static string FirstCharToUpper(string s)
         {
             //obtenido de http://www.c-sharpcorner.com/blogs/first-letter-in-uppercase-in-c-sharp1 
@@ -65,23 +67,32 @@ namespace CSHttpClientSample
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
-
-
-
         static void obtenerDatos(dynamic stuff)
         {
             // Imprimir WEBPAGES   
-            datum("WEBPAGES");
-            imprimirCosas(stuff.webPages.value, 1);
+            if (stuff.webPages != null)
+            {
+                datum("WEBPAGES");
+                imprimirCosas(stuff.webPages.value, 1);
+            }
             //iMPRIMIR IMAGES
-            datum("Images");
-            imprimirCosas(stuff.images.value, 2);
+            if (stuff.images != null)
+            {
+                datum("Images");
+                imprimirCosas(stuff.images.value, 2);
+            }
             //IMPRIMIR RELATEDSEARCHES
-            datum("RELATEDSEARCHES");
-            imprimirCosas(stuff.relatedSearches.value, 3);
+            if (stuff.relatedSearches != null)
+            {
+                datum("RELATEDSEARCHES");
+                imprimirCosas(stuff.relatedSearches.value, 3);
+            }
             //IMPRIMIR VIDEOS
-            datum("videos");
-            imprimirCosas(stuff.videos.value, 4);
+            if (stuff.videos != null)
+            {
+                datum("videos");
+                imprimirCosas(stuff.videos.value, 4);
+            }
         }
 
         static void datum(string ke)
@@ -175,10 +186,7 @@ namespace CSHttpClientSample
         {
 
             if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks") || dato.Equals("about"))
-            {
-
-                //Console.Write("About");
-            }
+            {;}
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
@@ -190,11 +198,8 @@ namespace CSHttpClientSample
 
         static void iImages(string dato, JToken desc)
         {
-            if (dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
-            {
-
-                //Console.Write("About");
-            }
+            if (dato.Equals("insightsSourcesSummary")  || dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
+            {;}
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
@@ -207,10 +212,7 @@ namespace CSHttpClientSample
         static void iRelatedsearches(string dato, JToken desc)
         {
             if (dato.Equals("displayText"))
-            {
-
-                //Console.Write("About");
-            }
+            {;}
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
@@ -223,10 +225,7 @@ namespace CSHttpClientSample
         static void iVideos(string dato, JToken desc)
         {
             if (dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed") || dato.Equals("name"))
-            {
-
-                //Console.Write("About");
-            }
+            {;}
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
