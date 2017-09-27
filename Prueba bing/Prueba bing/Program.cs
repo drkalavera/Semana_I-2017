@@ -6,6 +6,8 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.IO;
+using System.Collections;
 
 #region Referencias
 /*
@@ -26,13 +28,30 @@ namespace CSHttpClientSample
     {
         static void Main()
         {
-            MakeRequest();
-            Console.WriteLine("Hit ENTER to exit...");
-            Console.ReadLine();
+            StreamReader objReader = new StreamReader(@"item.txt");
+            string sLine = "";
+            ArrayList arrText = new ArrayList();
+
+            while (sLine != null)
+            {
+                sLine = objReader.ReadLine();
+
+                if (sLine != null)
+                    arrText.Add(sLine);
+            }
+
+            objReader.Close();
+
+            foreach (string sOutput in arrText)
+            {
+                MakeRequest(sOutput);
+                Console.WriteLine("Hit ENTER to exit...");
+                Console.ReadLine();
+            }
+
         }
 
-        #region APPs
-
+        #region APPs 
         public static string FirstCharToUpper(string s)
         {
             //obtenido de http://www.c-sharpcorner.com/blogs/first-letter-in-uppercase-in-c-sharp1 
@@ -46,20 +65,23 @@ namespace CSHttpClientSample
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
+
+
+
         static void obtenerDatos(dynamic stuff)
         {
             // Imprimir WEBPAGES   
-             datum("WEBPAGES");
-            imprimirCosas(stuff.webPages.value,1);
+            datum("WEBPAGES");
+            imprimirCosas(stuff.webPages.value, 1);
             //iMPRIMIR IMAGES
             datum("Images");
-            imprimirCosas(stuff.images.value,2);
+            imprimirCosas(stuff.images.value, 2);
             //IMPRIMIR RELATEDSEARCHES
             datum("RELATEDSEARCHES");
-            imprimirCosas(stuff.relatedSearches.value,3);
+            imprimirCosas(stuff.relatedSearches.value, 3);
             //IMPRIMIR VIDEOS
             datum("videos");
-            imprimirCosas(stuff.videos.value,4);
+            imprimirCosas(stuff.videos.value, 4);
         }
 
         static void datum(string ke)
@@ -69,14 +91,14 @@ namespace CSHttpClientSample
             Console.WriteLine("\n***************************************************************************");
         }
 
-        static async void MakeRequest()
+        static async void MakeRequest(string valor)
         {
             var client = new HttpClient();
             var queryString = HttpUtility.ParseQueryString(string.Empty);
             // Request headers
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "64f004f772a540ab92636c548eafff76");
             // Request parameters
-            queryString["q"] = "dog";
+            queryString["q"] = valor;
             queryString["count"] = "10";
             queryString["offset"] = "0";
             queryString["mkt"] = "en-us";
@@ -121,12 +143,12 @@ namespace CSHttpClientSample
                         i++;
                         cc++;
                     }
-                    imprimirQue(Que,appName,description);
+                    imprimirQue(Que, appName, description);
                 }
             }
         }
 
-        static void imprimirQue(int flag,string dato, JToken desc)
+        static void imprimirQue(int flag, string dato, JToken desc)
         {
             //1-webpages 2-images 3-relatedsearches 4-videos
             switch (flag)
@@ -135,7 +157,7 @@ namespace CSHttpClientSample
                     iWebpages(dato, desc);
                     break;
                 case 2:
-                    iImages(dato,desc);
+                    iImages(dato, desc);
                     break;
                 case 3:
                     iRelatedsearches(dato, desc);
@@ -151,8 +173,12 @@ namespace CSHttpClientSample
 
         static void iWebpages(string dato, JToken desc)
         {
-            if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks"))
-            {;}
+
+            if (dato.Equals("id") || dato.Equals("displayUrl") || dato.Equals("deepLinks") || dato.Equals("about"))
+            {
+
+                //Console.Write("About");
+            }
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
@@ -165,7 +191,10 @@ namespace CSHttpClientSample
         static void iImages(string dato, JToken desc)
         {
             if (dato.Equals("thumbnail") || dato.Equals("hostPageUrl") || dato.Equals("contentSize") || dato.Equals("encodingFormat") || dato.Equals("width") || dato.Equals("height") || dato.Equals("hostPageDisplayUrl"))
-            {;}
+            {
+
+                //Console.Write("About");
+            }
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
@@ -178,7 +207,10 @@ namespace CSHttpClientSample
         static void iRelatedsearches(string dato, JToken desc)
         {
             if (dato.Equals("displayText"))
-            {;}
+            {
+
+                //Console.Write("About");
+            }
             else
             {
                 Console.WriteLine("-------------------------------------------------------------");
@@ -190,17 +222,21 @@ namespace CSHttpClientSample
 
         static void iVideos(string dato, JToken desc)
         {
-            if (dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed"))
-            {;}
+            if (dato.Equals("webSearchUrl") || dato.Equals("thumbnailUrl") || dato.Equals("datePublished") || dato.Equals("publisher") || dato.Equals("hostPageUrl") || dato.Equals("encodingFormat") || dato.Equals("hostPageDisplayUrl") || dato.Equals("width") || dato.Equals("height") || dato.Equals("duration") || dato.Equals("motionThumbnailUrl") || dato.Equals("embedHtml") || dato.Equals("allowHttpsEmbed") || dato.Equals("viewCount") || dato.Equals("thumbnail") || dato.Equals("allowMobileEmbed") || dato.Equals("name"))
+            {
+
+                //Console.Write("About");
+            }
             else
             {
-            Console.WriteLine("-------------------------------------------------------------");
-            Console.Write(FirstCharToUpper(dato));
-            Console.WriteLine(":\n-------------------------------------------------------------");
-            Console.WriteLine(desc);
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.Write(FirstCharToUpper(dato));
+                Console.WriteLine(":\n-------------------------------------------------------------");
+                Console.WriteLine(desc);
             }
         }
 
         #endregion
+
     }
 }
