@@ -261,7 +261,7 @@ namespace CSHttpClientSample
                 Console.WriteLine(":\n-------------------------------------------------------------");
                 Console.WriteLine(desc);*/
                 string cadena = (string)desc;
-                wPages += (cadena + "¬");
+                wPages += (cadena + "]");
             }
         }
 
@@ -298,7 +298,7 @@ namespace CSHttpClientSample
                 Console.WriteLine(":\n-------------------------------------------------------------");
                 Console.WriteLine(desc);*/
                 string cadena = (string)desc;
-                rSearches += (cadena + "¬");
+                rSearches += (cadena + "]");
             }
         }
 
@@ -316,7 +316,7 @@ namespace CSHttpClientSample
                 Console.WriteLine(":\n-------------------------------------------------------------");
                 Console.WriteLine(desc);*/
                 string cadena = (string)desc;
-                v += (cadena + "¬");
+                v += (cadena + "]");
             }
         }
 
